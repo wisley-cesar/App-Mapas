@@ -1,4 +1,6 @@
+import 'package:app_mapas/screens/place_form_screen.dart';
 import 'package:app_mapas/screens/places_list_screen.dart';
+import 'package:app_mapas/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,6 +24,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: PlacesListScreen(),
+      routes: {
+        AppRoutes.PLACE_FROM: (ctx) => PlaceFormScreen(),
+      },
     );
   }
 }
