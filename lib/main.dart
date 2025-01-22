@@ -16,6 +16,13 @@ class MyApp extends StatelessWidget {
       title: 'App Mapas',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.amber,
+            foregroundColor: Colors.black,
+            iconColor: Colors.black,
+          ),
+        ),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.indigo,
           primary: Colors.indigo,
