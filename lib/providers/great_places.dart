@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:app_mapas/models/place.dart';
 import 'package:flutter/material.dart';
 
-class GratePlaces with ChangeNotifier {
+class GreatPlaces with ChangeNotifier {
   List<Place> _items = [];
 
   List<Place> get items {

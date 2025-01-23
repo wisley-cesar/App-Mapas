@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:app_mapas/providers/grate_places.dart';
+import 'package:app_mapas/providers/great_places.dart';
 import 'package:app_mapas/widgets/image_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +24,7 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
     if (_titleController.text.isEmpty || _pickedImage == null) {
       return;
     }
-    Provider.of<GratePlaces>(context, listen: false).addPlace(
+    Provider.of<GreatPlaces>(context, listen: false).addPlace(
       _titleController.text,
       _pickedImage!,
     );
