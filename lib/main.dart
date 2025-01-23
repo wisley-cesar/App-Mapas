@@ -1,4 +1,4 @@
-import 'package:app_mapas/providers/grate_places.dart';
+import 'package:app_mapas/providers/great_places.dart';
 import 'package:app_mapas/screens/place_form_screen.dart';
 import 'package:app_mapas/screens/places_list_screen.dart';
 import 'package:app_mapas/utils/app_routes.dart';
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => GratePlaces(),
+      create: (context) => GreatPlaces(),
       child: MaterialApp(
         title: 'App Mapas',
         debugShowCheckedModeBanner: false,
