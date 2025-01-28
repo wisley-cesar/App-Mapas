@@ -1,3 +1,4 @@
+import 'package:app_mapas/screens/map_screen.dart';
 import 'package:app_mapas/utils/location_util.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
@@ -22,6 +23,17 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       _previewImageUrl = staticMapImageUrl;
     });
+  }
+
+  Future<void> _selectOnMap() async {
+    final selectedLocation = await Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (ctx) => MapScreen(),
+      ),
+    );
+
+    if (selectedLocation == null) return;
   }
 
   @override
@@ -70,7 +82,7 @@ class _LocationInputState extends State<LocationInput> {
                   fontSize: 15,
                 ),
               ),
-              onPressed: () {},
+              onPressed: _selectOnMap,
             ),
           ],
         )
