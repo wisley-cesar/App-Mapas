@@ -4,12 +4,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreen extends StatefulWidget {
   final PlaceLocation initialLocation;
+  final bool isReadonly;
   const MapScreen({
     super.key,
     this.initialLocation = const PlaceLocation(
       latitude: 37.422,
       longitude: -122.084,
     ),
+    this.isReadonly = false,
   });
 
   @override
@@ -17,6 +19,14 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  LatLng? _pickedPosition;
+
+  void _selectPosition(LatLng position) {
+    setState(() {
+      _pickedPosition = position;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +41,15 @@ class _MapScreenState extends State<MapScreen> {
           ),
           zoom: 13,
         ),
+        onTap: widget.isReadonly ? null : _selectPosition,
+        markers: _pickedPosition == null
+            ? {}
+            : {
+                Marker(
+                  markerId: MarkerId('p1'),
+                  position: _pickedPosition!,
+                ),
+              },
       ),
     );
   }
