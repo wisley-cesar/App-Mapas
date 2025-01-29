@@ -1,7 +1,7 @@
 import 'package:app_mapas/screens/map_screen.dart';
 import 'package:app_mapas/utils/location_util.dart';
-import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:flutter/material.dart';
 
 class LocationInput extends StatefulWidget {
   const LocationInput({super.key});
