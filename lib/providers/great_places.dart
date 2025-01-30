@@ -3,7 +3,10 @@ import 'dart:math';
 
 import 'package:app_mapas/models/place.dart';
 import 'package:app_mapas/utils/db_util.dart';
+import 'package:app_mapas/utils/location_util.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class GreatPlaces with ChangeNotifier {
   List<Place> _items = [];
@@ -36,11 +39,20 @@ class GreatPlaces with ChangeNotifier {
     return _items[index];
   }
 
-  void addPlace(String title, File image) {
+  void addPlace(
+    String title,
+    File image,
+    LatLng position,
+  ) async {
+    final addres = await LocationUtil.getAddressFrom(position);
     final newPlace = Place(
       id: Random().nextDouble().toString(),
       title: title,
-      location: null,
+      location: PlaceLocation(
+        latitude: position.latitude,
+        longitude: position.longitude,
+        address: addres,
+      ),
       image: image,
     );
 
@@ -50,7 +62,6 @@ class GreatPlaces with ChangeNotifier {
       'title': newPlace.title,
       'image': newPlace.image.path,
     });
-    print(_items);
     notifyListeners();
   }
 }
