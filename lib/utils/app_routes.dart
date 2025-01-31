@@ -1,3 +1,4 @@
 class AppRoutes {
-  static const PLACE_FROM = '/place-from';
+  static const String placeForm = '/place-form';
+  static const String placeDetail = '/place-detail';
 }
