@@ -3,13 +3,12 @@ import 'package:path/path.dart' as path;
 
 class DbUtil {
   static Future<sql.Database> database() async {
-    final dpPath = await sql.getDatabasesPath();
-    print('Caminho do banco de dados: $dpPath');
+    final dbPath = await sql.getDatabasesPath();
     return sql.openDatabase(
-      path.join(dpPath, 'places.db'),
+      path.join(dbPath, 'places.db'),
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE places (id TEXT PRIMARY KEY, title TEXT, image TEXT)',
+          'CREATE TABLE places (id TEXT PRIMARY KEY, title TEXT, image TEXT, latitude REAL, longitude REAL, address TEXT)',
         );
       },
       version: 1,

@@ -1,4 +1,5 @@
 import 'package:app_mapas/providers/great_places.dart';
+import 'package:app_mapas/screens/place_detail_screen.dart';
 import 'package:app_mapas/screens/place_form_screen.dart';
 import 'package:app_mapas/screens/places_list_screen.dart';
 import 'package:app_mapas/utils/app_routes.dart';
@@ -10,33 +11,27 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => GreatPlaces(),
+      create: (ctx) => GreatPlaces(),
       child: MaterialApp(
-        title: 'App Mapas',
         debugShowCheckedModeBanner: false,
+        title: 'Great Places',
         theme: ThemeData(
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber,
-              foregroundColor: Colors.black,
-              iconColor: Colors.black,
-            ),
-          ),
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.indigo,
             primary: Colors.indigo,
             secondary: Colors.amber,
           ),
-          useMaterial3: true,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: PlacesListScreen(),
+        home: const PlacesListScreen(),
         routes: {
-          AppRoutes.PLACE_FROM: (ctx) => PlaceFormScreen(),
+          AppRoutes.placeForm: (ctx) => const PlaceFormScreen(),
+          AppRoutes.placeDetail: (ctx) => const PlaceDetailScreen(),
         },
       ),
     );

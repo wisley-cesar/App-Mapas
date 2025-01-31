@@ -4,40 +4,37 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PlacesListScreen extends StatelessWidget {
-  const PlacesListScreen({super.key});
+  const PlacesListScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text(
+          'Meus Lugares',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Theme.of(context).colorScheme.primary,
         actions: [
           IconButton(
             icon: const Icon(
               Icons.add,
               color: Colors.white,
-              size: 35,
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed(AppRoutes.PLACE_FROM);
+              Navigator.of(context).pushNamed(AppRoutes.placeForm);
             },
-          ),
+          )
         ],
-        title: Text(
-          'Meus Lugares',
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.onPrimary,
-          ),
-        ),
       ),
       body: FutureBuilder(
         future: Provider.of<GreatPlaces>(context, listen: false).loadPlaces(),
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : Consumer<GreatPlaces>(
-                child: Center(
-                  child: Text('Nenhum local cadastrado'),
+                child: const Center(
+                  child: Text('Nenhum local cadastrado!'),
                 ),
                 builder: (ctx, greatPlaces, ch) => greatPlaces.itemsCount == 0
                     ? ch!
@@ -45,11 +42,19 @@ class PlacesListScreen extends StatelessWidget {
                         itemCount: greatPlaces.itemsCount,
                         itemBuilder: (ctx, i) => ListTile(
                           leading: CircleAvatar(
-                            backgroundImage:
-                                FileImage(greatPlaces.itemByIndex(i).image),
+                            backgroundImage: FileImage(
+                              greatPlaces.itemByIndex(i).image,
+                            ),
                           ),
                           title: Text(greatPlaces.itemByIndex(i).title),
-                          onTap: () {},
+                          subtitle: Text(
+                              greatPlaces.itemByIndex(i).location!.address!),
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              AppRoutes.placeDetail,
+                              arguments: greatPlaces.itemByIndex(i),
+                            );
+                          },
                         ),
                       ),
               ),

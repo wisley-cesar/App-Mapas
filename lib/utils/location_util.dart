@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
-const googleApiKey = 'AIzaSyADhYfYiwOvYdoTjRglsCQ5MSKW2jSLl0c';
+
 
 class LocationUtil {
   static String generateLocationPreviewImage({
@@ -14,9 +14,11 @@ class LocationUtil {
   }
 
   static Future<String> getAddressFrom(LatLng position) async {
-    final url =
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&extra_computations=ADDRESS_DESCRIPTORS&key=$googleApiKey';
-    final response = await http.get(Uri.parse(url));
-    return json.decode(response.body)['results'][0]['formatted_address'];
+    final url = Uri.parse(
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$googleApiKey');
+    final response = await http.get(url);
+    return json
+        .decode(response.body)['results'][0]['formatted_address']
+        .toString();
   }
 }
