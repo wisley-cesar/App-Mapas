@@ -4,10 +4,11 @@ import 'package:app_mapas/providers/great_places.dart';
 import 'package:app_mapas/widgets/image_input.dart';
 import 'package:app_mapas/widgets/location_input.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class PlaceFormScreen extends StatefulWidget {
-  const PlaceFormScreen({super.key});
+  const PlaceFormScreen({Key? key}) : super(key: key);
 
   @override
   State<PlaceFormScreen> createState() => _PlaceFormScreenState();
@@ -16,18 +17,33 @@ class PlaceFormScreen extends StatefulWidget {
 class _PlaceFormScreenState extends State<PlaceFormScreen> {
   final _titleController = TextEditingController();
   File? _pickedImage;
+  LatLng? _pickedPosition;
 
   void _selectImage(File pickedImage) {
-    _pickedImage = pickedImage;
+    setState(() {
+      _pickedImage = pickedImage;
+    });
+  }
+
+  void _selectPosition(LatLng position) {
+    setState(() {
+      _pickedPosition = position;
+    });
+  }
+
+  bool _isValidForm() {
+    return _titleController.text.isNotEmpty &&
+        _pickedImage != null &&
+        _pickedPosition != null;
   }
 
   void _submitForm() {
-    if (_titleController.text.isEmpty || _pickedImage == null) {
-      return;
-    }
+    if (!_isValidForm()) return;
+
     Provider.of<GreatPlaces>(context, listen: false).addPlace(
       _titleController.text,
       _pickedImage!,
+      _pickedPosition!,
     );
 
     Navigator.of(context).pop();
@@ -37,12 +53,9 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.white,
-        ),
-        title: Text(
+        title: const Text(
           'Novo Lugar',
-          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
@@ -52,34 +65,38 @@ class _PlaceFormScreenState extends State<PlaceFormScreen> {
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
                     TextField(
                       controller: _titleController,
-                      decoration: InputDecoration(
-                        labelText: 'Titulo',
+                      decoration: const InputDecoration(
+                        labelText: 'Título',
                       ),
+                      onChanged: (text) {
+                        setState(() {});
+                      },
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ImageInput(_selectImage),
-                    SizedBox(height: 10),
-                    LocationInput(),
+                    const SizedBox(height: 10),
+                    LocationInput(_selectPosition),
                   ],
                 ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(28.0),
-            child: ElevatedButton.icon(
-              style:
-                  ButtonStyle(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
-              icon: Icon(Icons.add),
-              label: Text('Adicionar'),
-              onPressed: _submitForm,
+          ElevatedButton.icon(
+            icon: const Icon(Icons.add),
+            label: const Text('Adicionar'),
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.black,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              elevation: 0,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-          )
+            onPressed: _isValidForm() ? _submitForm : null,
+          ),
         ],
       ),
     );
